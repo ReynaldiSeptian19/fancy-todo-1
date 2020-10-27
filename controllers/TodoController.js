@@ -1,4 +1,3 @@
-const e = require('express')
 const { Todo } =  require('../models/index')
 
 class Controller {
@@ -59,7 +58,8 @@ class Controller {
         Todo.update(obj, {
             where: {
                 id
-            }
+            },
+            returning: true
         })
         .then(result => {
             res.status(200).json(result)
