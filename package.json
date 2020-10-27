@@ -1,0 +1,28 @@
+{
+  "name": "fancy-todo",
+  "version": "1.0.0",
+  "description": "**Add TODO**\r  --\r  Add a todo list",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReynaldiSeptian19/fancy-todo.git"
+  },
+  "keywords": [],
+  "author": "ReynaldiSeptian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ReynaldiSeptian19/fancy-todo/issues"
+  },
+  "homepage": "https://github.com/ReynaldiSeptian19/fancy-todo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.4.2",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
+  }
+}

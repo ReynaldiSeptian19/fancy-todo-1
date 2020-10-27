@@ -29,7 +29,7 @@
    [
 	     { 
 		     title : "Lulus", 
-		     descriptions: "Lulus Hacktiv8" , 
+		     descriptions: "Lulus Hacktiv8", 
 			 status: false, 
 		     due_date: "2020-11-26"
 	    }
