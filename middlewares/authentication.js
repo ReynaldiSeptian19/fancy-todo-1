@@ -13,21 +13,19 @@ async function Authenticate(req,res,next){
             const verifToken = VerifyToken(author)
             const user = await user.findOne({
                 where:{
-                    // id: token.id,
                     email: token.email
                 }
             })
             if(!user){
                 res.status(401).json(verifToken)
             }else{
+                req.accessToken = verifToken
                 next()
             }
         }
     }catch(error){
-
+        res.status(500).json(err)
     }
 }
 
-module.exports = {
-    Authenticate
-}
+module.exports = Authenticate

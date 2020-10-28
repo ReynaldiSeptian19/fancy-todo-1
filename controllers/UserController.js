@@ -49,7 +49,7 @@ class Controller{
                         id: user.id,
                         name: user.name,
                         email: user.email
-                    },process.env.SECRET); 
+                    }); 
                     res.status(200).json(decoded)
                 }
         }

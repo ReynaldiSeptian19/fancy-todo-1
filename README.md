@@ -1,5 +1,45 @@
 # Fancy Todos
 
+**Register**
+ --
+ Register an user
+ 
+* **URL**
+/users/register
+
+* **Method**
+`POST`
+
+* **Data Params**
+ ```
+ [
+      {
+      	name : Reynaldi,
+      	email: reynaldi@gmail.com,
+      	password: coba123
+      }
+] 
+```
+ * **Success Response:**
+    
+	 * **Code:**  201  (CREATED)
+      **Content:**  
+    ```
+   [
+	     { 
+		    name : Reynaldi,
+      		email: reynaldi@gmail.com,
+      		password: coba123
+	    }
+   ]
+   ```
+
+* **Error Response:**
+     * **Code:**  400 (Bad request)
+	     *  **Content:**  `{ error : "Validation Errors" }`
+     * **Code:**  500  (Internal Server Error )
+
+
 **Add TODO**
  --
  Add a todo list
@@ -14,10 +54,10 @@
  ```
  [
       {
-      	title : String,
-      	descriptions: String,
-      	status: String,
-      	due_date: Date
+      	title : "Lulus", 
+		descriptions: "Lulus Hacktiv8", 
+		status: false, 
+		due_date: "2020-11-26"
       }
 ] 
 ```

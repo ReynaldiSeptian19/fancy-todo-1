@@ -1,14 +1,14 @@
 const { verify } = require('crypto')
 const jwt = require('jsonwebtoken')
 
-function SignToken(payload, b){
-    const token = jwt.sign(payload, b)
+function SignToken(payload){
+    const token = jwt.sign(payload, process.env.SECRET)
     return token
 }
 
-function VerifyToken(payload){
-    const token = jwt.verify(payload)
-    return token
+function VerifyToken(token){
+    const decoded = jwt.verify(token, process.env.SECRET)
+    return decoded
 }
 
 module.exports = { 
