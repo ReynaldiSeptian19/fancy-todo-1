@@ -15,13 +15,8 @@ class Controller{
         return res.status(201).json({
             message: "suscces register an acount"
         })
-        }catch(error){
-            let status = 500
-            if(err.name === 'SequelizeValidationError'){
-                    status = 400
-                    return err.errors[0].message
-            } 
-            res.status(status).json(err)
+        }catch(err){
+            next(err)
         }
     }
 
@@ -54,8 +49,7 @@ class Controller{
                 }
         }
         catch(err){
-            console.log(err)
-            res.status(500).json(err)
+            next(err)
         }
     }
 }

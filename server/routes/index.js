@@ -2,7 +2,7 @@ const router = require('express').Router()
 const todoRouter = require('./todo')
 const userRouter = require('./user')
 
-router.use('/todos', todoRouter)
-router.use('/users', userRouter)
+router.use('/todo', todoRouter)
+router.use('/user', userRouter)
 
 module.exports = router

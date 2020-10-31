@@ -1,30 +1,31 @@
 const { TokenExpiredError } = require('jsonwebtoken')
 const { VerifyToken } = require('../helpers/jwt')
 const jwt = require('../helpers/jwt')
+const {User, Todo} = require('../models/index')
 
 async function Authenticate(req,res,next){
     try{
-        const author = req.headers.Authorization
-        if(!author){
+        const { access_token } = req.headers
+        if(!access_token){
             res.status(401).json({
                 message: "Do not Have Access"
             })
         }else{
-            const verifToken = VerifyToken(author)
-            const user = await user.findOne({
+            const decoded = VerifyToken(access_token)
+            const user = await User.findOne({
                 where:{
-                    email: token.email
+                    email: decoded.email
                 }
             })
             if(!user){
-                res.status(401).json(verifToken)
+                res.status(404).json({msg: "Id Not Found"})
             }else{
-                req.accessToken = verifToken
+                req.decoded = decoded
                 next()
             }
         }
     }catch(error){
-        res.status(500).json(err)
+      next(error)
     }
 }
 

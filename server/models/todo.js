@@ -22,12 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.BOOLEAN,
     due_date: {
      type: DataTypes.DATE,
-     validate: {
-       isAfter: {
-         args: new Date(),
-         msg: "Select a date more than today"
-       }
-     }
+    //  validate: {
+    //    isAfter: {
+    //      args: new Date(),
+    //      msg: "Select a date more than today"
+    //    }
+    //  }
     },
     UserId: DataTypes.INTEGER
     }, 
