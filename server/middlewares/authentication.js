@@ -6,6 +6,7 @@ const {User, Todo} = require('../models/index')
 async function Authenticate(req,res,next){
     try{
         const { access_token } = req.headers
+        console.log(req.headers)
         if(!access_token){
             res.status(401).json({
                 message: "Do not Have Access"

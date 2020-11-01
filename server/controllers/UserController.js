@@ -1,4 +1,5 @@
 const { User } =  require('../models/index')
+const {OAuth2Client} = require('google-auth-library');
 const { Hash, CompareHash } = require('../helpers/hash')
 const { SignToken } = require('../helpers/jwt')
 
@@ -51,6 +52,35 @@ class Controller{
         catch(err){
             next(err)
         }
+    }
+
+    static async googleLogin(req,res,next){
+        const {google_token} = req.body
+        const client = new OAuth2Client(process.env.PRIVATE_GOOGLE_CLIENT);
+            try {
+                const ticket = await client.verifyIdToken({
+                    idToken: google_token,
+                    audience: process.env.PRIVATE_GOOGLE_CLIENT,
+                });
+                const payload = ticket.getPayload();
+                const email = payload.email
+                const full_name = payload.name
+                const available = await User.findOne({where:{email}})
+                if(available){
+                    let access_token = jwt.signToken({id:available.id,email:available.email})
+                    res.status(200).json({access_token})
+                }else{
+                    const newUser = await User.create({
+                        full_name,
+                        email,
+                        password : process.env.PRIVATE_DEFAULT_PASSWORD
+                    })
+                    let access_token = jwt.signToken({id:newUser.id,email:newUser.email})
+                    res.status(200).json({access_token})
+                }
+            } catch (err) {
+                next(err);
+        } 
     }
 }
 
