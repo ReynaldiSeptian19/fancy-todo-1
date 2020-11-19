@@ -37,37 +37,38 @@ class Controller {
 
     static readById(req, res) {
         const id = +req.params.id
-        Todo.findByPk({
-            where: {
-                UserId: req.decoded.id
-            }
-        })
+        Todo.findByPk(id)
         .then(result => {
             res.status(200).json(result)
         })
         .catch(err => {
+            console.log(err)
             next(err)
         })
     }
 
     static editTodo(req,res) {
+        console.log('satu satu')
         const id = +req.params.id
+        console.log(id)
         const obj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date
         }
+        console.log(obj)
         Todo.update(obj, {
             where: {
-                id
+                id: id
             },
-            returning: true
         })
         .then(result => {
+            console.log(result)
             res.status(200).json(result)
         })
         .catch(err => {
+            console.log(err)
             next(err)
         })
     }

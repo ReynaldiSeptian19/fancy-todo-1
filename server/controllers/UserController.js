@@ -46,7 +46,7 @@ class Controller{
                         name: user.name,
                         email: user.email
                     }); 
-                    res.status(200).json(decoded)
+                    res.status(200).json({access_token: decoded})
                 }
         }
         catch(err){
@@ -54,34 +54,51 @@ class Controller{
         }
     }
 
-    static async googleLogin(req,res,next){
-        const {google_token} = req.body
+    static googleLogin(req, res, next) {
+        console.log('masuk controller')
+        //verify token
+        //dapetin token dari client
+        // let { google_access_token } = req.body
         const client = new OAuth2Client(process.env.PRIVATE_GOOGLE_CLIENT);
-            try {
-                const ticket = await client.verifyIdToken({
-                    idToken: google_token,
-                    audience: process.env.PRIVATE_GOOGLE_CLIENT,
-                });
-                const payload = ticket.getPayload();
-                const email = payload.email
-                const full_name = payload.name
-                const available = await User.findOne({where:{email}})
-                if(available){
-                    let access_token = jwt.signToken({id:available.id,email:available.email})
-                    res.status(200).json({access_token})
-                }else{
-                    const newUser = await User.create({
-                        full_name,
-                        email,
-                        password : process.env.PRIVATE_DEFAULT_PASSWORD
-                    })
-                    let access_token = jwt.signToken({id:newUser.id,email:newUser.email})
-                    res.status(200).json({access_token})
-                }
-            } catch (err) {
-                next(err);
-        } 
-    }
+        let email = ""
+        //verify google token berdasarkan client id
+        client.verifyIdToken({
+          idToken: req.headers.google_access_token,
+          audience: process.env.PRIVATE_GOOGLE_CLIENT
+        })
+          .then(ticket => {
+              console.log('bapakluuuuu')
+            let payload = ticket.getPayload()
+            email = payload.email
+            return User.findOne({
+              where: { email }
+            })
+          })
+          .then(user => {
+              console.log('kakekluuuuu')
+            if (!user) {
+              let obj = {
+                email: email,
+                name: 'siapabilang',
+                password: "randompassword"
+              }
+              console.log(obj)
+              return User.create(obj)
+            } else {
+                console.log('eaaaaaaaa')
+              return user
+            }
+          })
+          .then(dataUser => {
+            console.log('ini neneknya ironman');
+            let access_token = SignToken({ id: dataUser.id, name: dataUser.name, email: dataUser.email })
+            console.log(access_token,'T_T')
+            return res.status(200).json({ access_token })
+          })
+          .catch(err => {
+            next(err)
+          })
+      }
 }
 
 module.exports = Controller
